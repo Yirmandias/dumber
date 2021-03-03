@@ -35,16 +35,9 @@ enum captureSize {xs, sm, md, lg};
  * Class for camera (image grab)
  * 
  * @brief Class for camera (image grab)
- * How to grab an image and send it to the monitor:
- *  1. Grab an image, for example:
- *          Img * img = new Img(cam->Grab());
- *  2. Instanciate the message to send the image:
- *          MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
  */
 class Camera {
 public:
-    Camera();
-    
     /**
      * Create an object for accessing camera
      * @param size Size of picture to grab (@see captureSize)
@@ -117,6 +110,42 @@ private:
      * Height of image
      */
     int height;
+};
+
+
+
+
+
+
+/*
+ On choisit de créer une classe héritant de caméra
+ * Cela permettra de centraliser les données partagées relatives à la caméra
+ */
+
+
+class CameraExtended : public Camera {
+    
+public:    
+    CameraExtended(int size, int fps);
+    
+    bool getCameraOpened();
+    bool getFindPosition();
+    bool getSearchingArena();
+    bool isArenaEmpty();
+    Arena getSavedArena();
+    
+    void setCameraOpened(bool cameraOpened);
+    void setFindPosition(bool findPosition);
+    void setSavedArena(Arena savedArena);
+    void setSearchingArena(bool b);
+
+private:
+    bool m_cameraOpened;
+    bool m_findPosition;
+    bool m_searchingArena;
+    
+    Arena * m_savedArena;    
+    
 };
 
 #endif //__CAMERA_H__

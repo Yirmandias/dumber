@@ -22,13 +22,6 @@
 using namespace cv;
 
 /**
- * Create an object for accessing camera with default values (size = sm and 
- * fps = 10)
- */
-Camera::Camera():Camera(sm, 10){
-}
-
-/**
  * Create an object for accessing camera
  * @param size Size of picture to grab (@see captureSize)
  * @param fps speed of sampling
@@ -154,4 +147,59 @@ int Camera::GetWidth() const {
  */
 int Camera::GetHeight() const {
     return height;
+}
+
+
+
+
+
+
+
+/*
+ On définit le sbelles fonctions de notre caméra améliorée
+ */
+
+CameraExtended::CameraExtended (int size, int fps): Camera(size, fps) 
+{
+    m_cameraOpened = false;
+    m_searchingArena = false;
+    m_findPosition = false;
+    m_savedArena = new Arena;
+}
+
+bool CameraExtended::getCameraOpened() {
+    return m_cameraOpened;
+}
+
+bool CameraExtended::getFindPosition() {
+    return m_findPosition;
+}
+
+Arena CameraExtended::getSavedArena() {
+    return *m_savedArena;
+}
+
+bool CameraExtended::isArenaEmpty() {
+    return m_savedArena->IsEmpty();
+}
+
+void CameraExtended::setCameraOpened(bool b) {
+    m_cameraOpened = b;
+}
+
+void CameraExtended::setFindPosition(bool b) {
+    m_findPosition = b;
+}
+
+void CameraExtended::setSavedArena(Arena a) {
+    * m_savedArena = a;
+}
+
+
+bool CameraExtended::getSearchingArena() {
+    return m_searchingArena;
+}
+
+void CameraExtended::setSearchingArena(bool b) {
+    m_searchingArena = b;
 }

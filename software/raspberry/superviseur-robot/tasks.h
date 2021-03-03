@@ -64,8 +64,12 @@ private:
     /**********************************************************************/
     ComMonitor monitor;
     ComRobot robot;
-    int robotStarted = 0;
+    
+    int robotStarted;
     int move = MESSAGE_ROBOT_STOP;
+    
+    bool d_robotConnected = false;
+    CameraExtended * d_maCamera;
     
     /**********************************************************************/
     /* Tasks                                                              */
@@ -77,6 +81,14 @@ private:
     RT_TASK th_startRobot;
     RT_TASK th_move;
     
+    RT_TASK th_updateBatteryLevel;
+    RT_TASK th_openCamera;
+    RT_TASK th_closeCamera;
+    RT_TASK th_sendImage;
+    RT_TASK th_findArena;
+    RT_TASK th_closeComRobot;
+    RT_TASK th_SuperviseurWD;
+    
     /**********************************************************************/
     /* Mutex                                                              */
     /**********************************************************************/
@@ -84,6 +96,9 @@ private:
     RT_MUTEX mutex_robot;
     RT_MUTEX mutex_robotStarted;
     RT_MUTEX mutex_move;
+    
+    RT_MUTEX mutex_robotConnected;
+    RT_MUTEX mutex_maCamera;
 
     /**********************************************************************/
     /* Semaphores                                                         */
@@ -92,12 +107,25 @@ private:
     RT_SEM sem_openComRobot;
     RT_SEM sem_serverOk;
     RT_SEM sem_startRobot;
+    
+    RT_SEM sem_robotStarted;
+    RT_SEM sem_openCamera;
+    RT_SEM sem_closeCamera;
+    RT_SEM sem_startCapture;
+    RT_SEM sem_searchArena;
+    RT_SEM sem_arenaAnswered;
+    RT_SEM sem_closeComRobot;
+    RT_SEM sem_startRobotWithWatchdog;
+   
 
     /**********************************************************************/
     /* Message queues                                                     */
     /**********************************************************************/
     int MSG_QUEUE_SIZE;
     RT_QUEUE q_messageToMon;
+    RT_QUEUE q_messageToArena;
+    RT_QUEUE q_watchdog;
+    
     
     /**********************************************************************/
     /* Tasks' functions                                                   */
@@ -148,6 +176,25 @@ private:
      * @return Message read
      */
     Message *ReadInQueue(RT_QUEUE *queue);
+    
+    
+    /***
+     CODE AJOUTE
+     */
+    void UpdateBatteryLevel();
+    
+    void OpenCamera(); 
+    
+    void CloseCamera();
+    
+    void SendImage();
+    
+    void FindArena();
+    
+    void SuperviseurWDTask(void *arg);
+    
+    void closeComRobot(void *arg);
+    
 
 };
 

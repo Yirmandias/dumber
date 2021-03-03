@@ -31,7 +31,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 int sock = 0;
-string host = "127.0.0.1";
+string host = "192.168.1.27";
+//string host = "127.0.0.1";
 #define PORT 6699
 #endif
 
